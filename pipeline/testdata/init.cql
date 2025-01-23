@@ -1,0 +1,2 @@
+CREATE KEYSPACE IF NOT EXISTS case_pipeline_test WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};
+CREATE TABLE IF NOT EXISTS case_pipeline_test.products (id int, title text, price float, category text, brand text, url text, description text, PRIMARY KEY(id));

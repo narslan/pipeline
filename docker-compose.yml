@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  cassandra:
+    image: "cassandra:4.1.3"
+    container_name: "cassandra-service"
+    ports:
+      - "9042:9042"   
+  redis:
+    image: "redis:alpine"
+    ports:
+      - '6379:6379'
