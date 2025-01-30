@@ -1,25 +1,20 @@
 
 ## dataflow
 
-This project provides a data processing job and an HTTP interface.
+This project provides a data processing job and an HTTP API to serve
+data included in databases.
 
 Under the folder `cmd` there are two folders. Each includes main files of respective service.
 `job` is a data processing pipeline and storage facility.  It retrieves a
-number of JSONL files from AWS S3, parses,  and saves them in a Cassandra
-database. Choosing a NoSQL database easily meets our needs, since the
-only database query that we'll care for is just getting the row of a particular id.
-We also want the database to perform well under massive write conditions.
-`Cassandra` is a good choice here. `job` uses a cache. It is used to speed up the 
-pipeline by eliminating the repetitive write operations to Cassandra, by
-avoiding repeated calls to functions that process the same input.
+number of JSONL files from AWS S3, parses them,  and saves the parsed data in a Cassandra
+table.
 
 `microservice` is a REST API that has only one endpoint:
 For a request `/product/:id` returns Product as a `JSON` representation.  
 
 ## Project structure
 
-1. There are application domain types under the main directory. `Fetch`,
-   `Cache`, `ProductService`. 
+1. Abstract Interfaces are defined in the files under the main directory.  
 2. Implementations of those types are in the packages. `cassandra`, `http`,
    etc.
 3. Everything is wired together in the `cmd` subpackages. `cmd/job` &
@@ -27,33 +22,18 @@ For a request `/product/:id` returns Product as a `JSON` representation.
 
 ### The application domains 
 
-An application domain is a dependency that defines a type in an application,
-independent of its implementation details. For example, a `Cache` describes what
-it does without any implementation details.
-
 We provide interfaces for managing the application domain data types, serving
 as blueprints for underlying implementations. For instance, we define the
-`ProductService` application domain interface for database operations, with
-Cassandra serving as the actual implementation. 
-
-This approach enables us to swap out implementations. An example is the `Fetch`
-interface, which deals with getting resources from a filesystem. There are two
-implementations of it in the project. One example (`S3FetchService`) fetches
-from `S3`, and the other one (`FileReader`) reads files from the local filesystem. They have a
-common interface, but one pulls data from the cloud, and the other reads a file from
-the local filesystem. This makes testing and mocking services easier.
+`ProductService` application domain interface for the database operations on product type,
+  whereas `cassandra` serving as the actual implementation. 
+ This makes testing and mocking services easier.
 
 ### Implementation
 
-Some packages connect the application domain and the
-concrete technology that we use to implement the domain. For instance
-`cassandra.ProductService` implements `dataflow.ProductService` using
-Cassandra.
 
 The packages do not know each other, they communicate using
-application domains. For example, the `http` package doesn't know which database it
-should communicate with. It just uses an instance of `dataflow.ProductService`
-application domain. 
+application domains. the `http` package doesn't know which database it
+should communicate with. It just uses an instance of `dataflow.ProductService` interface.
 
 - `http`: Implements product service over HTTP.
 - `cassandra`: Implements product service storage layer. 
@@ -72,24 +52,12 @@ make working applications.
 - `job`: The pipeline CLI. 
 - `microservice`: The HTTP server.
 
-These applications tie the services together depending on their case. 
-
-`job` application creates a `s3` fetching service, then adds `cassandra`
-storage layer and `redis` cache layer on top. Mechanically `job` pulls JSONL
-files from AWS S3, processes them, and concurrently saves to the Cassandra. 
-It exits if the pipeline succeeds or is interrupted by a signal or error.   
-
-`microservice` application in comparison to the `job` creates a `http` service and
-wires it up only with the `cassandra` storage layer. It is a daemon process that
-listens a particular port for incoming HTTP requests..  
-
-
 ### Setup:
- There are 4 files in an AWS S3 bucket with names `products-[1..4].jsonl`. 
+ Let's assume, there are 4 files in an AWS S3 bucket with names `products-[1..4].jsonl`. 
  They are present in region  `eu-central-1` under bucket: `casestudy`. 
  The task is: 
- > Fetch those files, process the JSONL files, and save
- them into storage database. Take optimization measures if necessary. Serve them in
+ > Fetch those files, process the JSONL files, and save the result into storage database.
+  Take optimization measures if necessary. Serve them in
  terms of an HTTP based microservice. For a given product ID, the service should
  return the details of the relevant product . 
 
@@ -106,12 +74,8 @@ export AWS_SECRET_ACCESS_KEY=YOUR_SECRET_KEY
 #### Tests 
 
 This command pulls docker images, and deploys a Cassandra instance and a
-Redis instance in the local environment using [Testcontainers for
-Go](https://golang.testcontainers.org/).  
-To run all integration tests (database
-tests) and unit tests, call the following on the command line.
->  The project needs `docker` for integration tests in some packages. In some
->  GNU/Linux systems, you might need privileged access to the `docker`.
+Redis instance in the local environment using [Testcontainers for Go](https://golang.testcontainers.org/).  
+To run all integration tests (database tests) and unit tests, call the following on the command line.
 
 ```sh 
 go test ./... -race
@@ -140,9 +104,7 @@ The following command will help to find out if it is ready.
 docker exec -it cassandra-service  cqlsh -e "describe keyspaces"
 ``` 
 Our database is ready, if there is no error. 
-We need to take one more step to work with Cassandra. 
-We call the following script under the `scripts` directory. 
-This will create a keyspace and table on the database.
+The following line will create a keyspace and table on the database.
 
 ```sh 
 sudo sh ./scripts/provision.sh 
@@ -156,11 +118,7 @@ profit from the cache at the first run.
 ```sh 
 go run cmd/job/main.go -config dataflow.conf 
 ```
-Optionally you can give `-concurrency n` flag to the CLI. 
-This regulates the number of concurrent executions of some
-stages of the pipeline. Default is the number of logical cores of the CPU of the host
-machine. It is better to leave the default value here. It can be used to measure the relationship 
-between concurrency and performance. 
+
 For example, if we try the following command, we'll get a slower duration of execution. 
 ```sh 
 go run cmd/job/main.go -config dataflow.conf -concurrency 1
@@ -178,8 +136,8 @@ Test it:
 curl localhost:8080/product/42
 ```
 
-### Optimization using cache 
-To see and appreciate the achievement cashing via redis, we can do a demonstration. 
+### Using `redis` cache 
+To look into caching via redis, we can do a demonstration. 
 First on the project directory call the following
 command to remove the database instances. 
 ```sh 
@@ -218,17 +176,7 @@ Pipeline tooks 15.399257129s
 This result shows the efficiency of the optimization through caching. 
 We save half of the execution time of the pipeline.
 
-### Discussion
 
-The pipeline stage can be more performant by introducing more concurrency.   
-
-Currently, `Split` and `ConvertJSON` methods leverage just one goroutine 
-in contrast to other stages of the pipeline,   
-which are fully concurrent. Using a `fan-out`-`fan-in` concurrency pattern in the split 
-and conversion stages might help optimize the execution time of the pipeline. 
-My initial attempts and observations didn't show much improvement, so I abandoned development. 
-The conclusion I reached was, that for relatively small number of files and lines, as in our current case, 
-this optimization might not benefit too much. 
 
 
 

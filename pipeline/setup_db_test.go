@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"bitbucket.org/nevroz/dataflow/cassandra"
-	"bitbucket.org/nevroz/dataflow/redis"
+	"github.com/narslan/dataflow/cassandra"
+	"github.com/narslan/dataflow/redis"
 )
 
 // MustOpenDB returns a new DB. Fatal on error.

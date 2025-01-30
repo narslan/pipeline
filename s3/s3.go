@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io"
 
-	"bitbucket.org/nevroz/dataflow"
+	"github.com/narslan/pipeline"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/s3"

@@ -7,8 +7,8 @@ import (
 	"os"
 	"os/signal"
 
-	"bitbucket.org/nevroz/dataflow/cassandra"
-	"bitbucket.org/nevroz/dataflow/http"
+	"github.com/narslan/dataflow/cassandra"
+	"github.com/narslan/dataflow/http"
 	"github.com/BurntSushi/toml"
 )
 

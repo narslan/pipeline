@@ -4,7 +4,7 @@ import (
 	"context"
 	"strconv"
 
-	"bitbucket.org/nevroz/dataflow"
+	"github.com/narslan/pipeline"
 	"github.com/redis/go-redis/v9"
 )
 

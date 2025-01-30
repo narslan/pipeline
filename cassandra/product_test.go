@@ -5,9 +5,9 @@ import (
 	"reflect"
 	"testing"
 
-	"bitbucket.org/nevroz/dataflow"
-	"bitbucket.org/nevroz/dataflow/cassandra"
-	"bitbucket.org/nevroz/dataflow/container"
+	"github.com/narslan/pipeline"
+	"github.com/narslan/dataflow/cassandra"
+	"github.com/narslan/dataflow/container"
 )
 
 func TestProductService_CreateProduct(t *testing.T) {

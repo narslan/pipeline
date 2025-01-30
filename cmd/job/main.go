@@ -10,10 +10,10 @@ import (
 	"runtime"
 	"time"
 
-	"bitbucket.org/nevroz/dataflow/cassandra"
-	"bitbucket.org/nevroz/dataflow/pipeline"
-	"bitbucket.org/nevroz/dataflow/redis"
-	"bitbucket.org/nevroz/dataflow/s3"
+	"github.com/narslan/dataflow/cassandra"
+	"github.com/narslan/dataflow/pipeline"
+	"github.com/narslan/dataflow/redis"
+	"github.com/narslan/dataflow/s3"
 	"github.com/BurntSushi/toml"
 )
 

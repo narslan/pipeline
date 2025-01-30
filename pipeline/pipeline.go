@@ -8,7 +8,7 @@ import (
 	"errors"
 	"fmt"
 
-	"bitbucket.org/nevroz/dataflow"
+	"github.com/narslan/pipeline"
 	"golang.org/x/sync/errgroup"
 	"golang.org/x/sync/semaphore"
 )

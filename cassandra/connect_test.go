@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"bitbucket.org/nevroz/dataflow/cassandra"
-	"bitbucket.org/nevroz/dataflow/container"
+	"github.com/narslan/dataflow/cassandra"
+	"github.com/narslan/dataflow/container"
 )
 
 // Ensure the test database can open & close.

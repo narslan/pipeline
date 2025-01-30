@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"bitbucket.org/nevroz/dataflow/s3"
+	"github.com/narslan/dataflow/s3"
 )
 
 // If dump flag set true, developer can get files from S3 and save to local file for further examination.

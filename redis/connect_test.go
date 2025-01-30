@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"bitbucket.org/nevroz/dataflow/container"
-	"bitbucket.org/nevroz/dataflow/redis"
+	"github.com/narslan/dataflow/container"
+	"github.com/narslan/dataflow/redis"
 )
 
 // Ensure the test database can open & close.

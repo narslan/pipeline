@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"bitbucket.org/nevroz/dataflow"
+	"github.com/narslan/pipeline"
 )
 
 func (s *Server) getProductById(w http.ResponseWriter, r *http.Request) {

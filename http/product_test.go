@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"testing"
 
-	"bitbucket.org/nevroz/dataflow"
+	"github.com/narslan/pipeline"
 )
 
 // Ensure the HTTP server can return the product.

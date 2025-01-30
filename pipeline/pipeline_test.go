@@ -8,11 +8,11 @@ import (
 	"runtime"
 	"testing"
 
-	"bitbucket.org/nevroz/dataflow"
-	"bitbucket.org/nevroz/dataflow/cassandra"
-	"bitbucket.org/nevroz/dataflow/container"
-	"bitbucket.org/nevroz/dataflow/pipeline"
-	"bitbucket.org/nevroz/dataflow/redis"
+	"github.com/narslan/pipeline"
+	"github.com/narslan/dataflow/cassandra"
+	"github.com/narslan/dataflow/container"
+	"github.com/narslan/dataflow/pipeline"
+	"github.com/narslan/dataflow/redis"
 )
 
 // FileReader represents a file reader for local filesytem. It mimicks the S3FetchService.

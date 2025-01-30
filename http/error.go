@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"bitbucket.org/nevroz/dataflow"
+	"github.com/narslan/pipeline"
 )
 
 // Error prints & optionally logs an error message.

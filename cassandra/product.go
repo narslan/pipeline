@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"bitbucket.org/nevroz/dataflow"
+	"github.com/narslan/pipeline"
 	"github.com/gocql/gocql"
 )
 

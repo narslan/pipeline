@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"testing"
 
-	dataflowhttp "bitbucket.org/nevroz/dataflow/http"
-	"bitbucket.org/nevroz/dataflow/mock"
+	dataflowhttp "github.com/narslan/dataflow/http"
+	"github.com/narslan/dataflow/mock"
 )
 
 // Server represents a test wrapper for dataflowhttp.Server.

@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"bitbucket.org/nevroz/dataflow"
+	"github.com/narslan/pipeline"
 )
 
 // ShutdownTimeout is the period for outstanding requests to finish before shutdown.

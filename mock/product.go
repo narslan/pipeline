@@ -3,7 +3,7 @@ package mock
 import (
 	"context"
 
-	"bitbucket.org/nevroz/dataflow"
+	"github.com/narslan/pipeline"
 )
 
 var _ dataflow.ProductService = (*ProductService)(nil)
