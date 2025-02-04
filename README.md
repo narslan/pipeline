@@ -96,63 +96,64 @@ The project requires a running Cassandra database instance and a Redis database.
 Call this under the project folder setup them on your local environment. 
 
 ```sh 
-docker-compose up -d 
+  docker-compose up -d 
 ```
 Cassandra needs a bit of time to establish its configuration. 
 The following command will help to find out if it is ready. 
+
 ```sh 
-docker exec -it cassandra-service  cqlsh -e "describe keyspaces"
-``` 
+  docker exec -it cassandra-service  cqlsh -e "describe keyspaces"
+```
+   
 Our database is ready, if there is no error. 
 The following line will create a keyspace and table on the database.
 
 ```sh 
-sudo sh ./scripts/provision.sh 
+  sudo sh ./scripts/provision.sh 
 ```
 
 Now the setup is ready for our projects. Let's run the `job` command first. This
 command pulls all the product files from AWS, processes them via a pipeline, and
 stores them in a database. The first run might take a bit longer since we don't 
-profit from the cache at the first run.
+profit from the cache for the first run.
 
 ```sh 
 go run cmd/job/main.go -config dataflow.conf 
 ```
 
-For example, if we try the following command, we'll get a slower duration of execution. 
+If we try the following command, we'll get a slower duration of execution. 
 ```sh 
-go run cmd/job/main.go -config dataflow.conf -concurrency 1
+  go run cmd/job/main.go -config dataflow.conf -concurrency 1
 ```
 
 Start the `microservice` HTTP daemon. 
 ```sh 
 
-go run cmd/microservice/main.go -config dataflow.conf 
+  go run cmd/microservice/main.go -config dataflow.conf 
 ```
 
 Test it: 
 ```sh 
 
-curl localhost:8080/product/42
+  curl localhost:8080/product/42
 ```
 
 ### Using `redis` cache 
 To look into caching via redis, we can do a demonstration. 
 First on the project directory call the following
 command to remove the database instances. 
-```sh 
-docker-compose down --remove-orphans
+```sh
+  docker-compose down --remove-orphans
 
 ``` 
 Then re-create fresh instances of Cassandra and Redis..
-```
-sh docker-compose up -d 
+```sh
+  docker-compose up -d 
 ``` 
 Wait  like 30 seconds to let Cassandra stand up. 
 Use this as a readiness probe: 
 ```sh 
-
-docker exec -it cassandra-service  cqlsh -e "describe keyspaces" 
+  docker exec -it cassandra-service  cqlsh -e "describe keyspaces" 
 ```
 
 After this, we have a pipeline setup with an empty cache layer.  
@@ -160,20 +161,19 @@ This means the data processing should take a bit longer. Let's check.
 This command measures how much time elapsed for the execution of the job. 
 
 ```sh 
-go run cmd/job/main.go -config dataflow.conf 
+  go run cmd/job/main.go -config dataflow.conf 
 ``` 
 I got the following result on my computer.
 
 ```sh 
-Pipeline tooks 29.788467364s 
+  Pipeline tooks 29.788467364s 
 ```
 
 After the second execution of the same command, I got the following output on my local.
 ```sh 
-
-Pipeline tooks 15.399257129s 
+  Pipeline tooks 15.399257129s 
 ```
-This result shows the efficiency of the optimization through caching. 
+This result shows benefit of caching. 
 We save half of the execution time of the pipeline.
 
 
