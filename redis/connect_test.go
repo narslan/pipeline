@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/narslan/dataflow/container"
-	"github.com/narslan/dataflow/redis"
+	"github.com/narslan/pipeline/container"
+	"github.com/narslan/pipeline/redis"
 )
 
 // Ensure the test database can open & close.

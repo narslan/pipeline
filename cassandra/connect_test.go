@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/narslan/dataflow/cassandra"
-	"github.com/narslan/dataflow/container"
+	"github.com/narslan/pipeline/cassandra"
+	"github.com/narslan/pipeline/container"
 )
 
 // Ensure the test database can open & close.

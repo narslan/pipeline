@@ -8,11 +8,11 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/narslan/pipeline"
-	"github.com/narslan/dataflow/cassandra"
-	"github.com/narslan/dataflow/container"
-	"github.com/narslan/dataflow/pipeline"
-	"github.com/narslan/dataflow/redis"
+	dataflow "github.com/narslan/pipeline"
+	"github.com/narslan/pipeline/cassandra"
+	"github.com/narslan/pipeline/container"
+	"github.com/narslan/pipeline/pipeline"
+	"github.com/narslan/pipeline/redis"
 )
 
 // FileReader represents a file reader for local filesytem. It mimicks the S3FetchService.

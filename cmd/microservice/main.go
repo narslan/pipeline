@@ -7,9 +7,9 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/narslan/dataflow/cassandra"
-	"github.com/narslan/dataflow/http"
 	"github.com/BurntSushi/toml"
+	"github.com/narslan/pipeline/cassandra"
+	"github.com/narslan/pipeline/http"
 )
 
 // main is the entry point to our application.

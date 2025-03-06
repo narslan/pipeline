@@ -10,11 +10,11 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/narslan/dataflow/cassandra"
-	"github.com/narslan/dataflow/pipeline"
-	"github.com/narslan/dataflow/redis"
-	"github.com/narslan/dataflow/s3"
 	"github.com/BurntSushi/toml"
+	"github.com/narslan/pipeline/cassandra"
+	"github.com/narslan/pipeline/pipeline"
+	"github.com/narslan/pipeline/redis"
+	"github.com/narslan/pipeline/s3"
 )
 
 // main is the entry point into our application. It doesn't return errors.
